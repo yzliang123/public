@@ -1,5 +1,5 @@
 DNS_SERVERS={ 
-##  jsdns03ber: 221.177.141.180
+  jsdns03ber: 221.177.141.180
 #  jsdns04ber: 117.142.11.244
 #  jsdns01bhw: 223.103.173.2
 #  jsdns02bhw: 223.103.181.114
