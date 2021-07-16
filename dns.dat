@@ -1,5 +1,5 @@
 DNS_SERVERS={ 
-  jsdns03ber: 221.177.141.180
+#  jsdns03ber: 221.177.141.180
 #  jsdns04ber: 117.142.11.244
 #  jsdns01bhw: 223.103.173.2
 #  jsdns02bhw: 223.103.181.114
@@ -9,25 +9,27 @@ EPS_APN = {
   cmnet
   cmwap
   ims
+  cmdtj
 }
 
 GPRS_APN = {
   cmnet
   cmwap
+  jsepc.js
 }
 
-EPS_TAC = {
-  20716
-}
+#EPS_TAC = {
+#  20716
+#}
   
-GPRS_LAC_RAC = {
-  20716-1
-}
+#GPRS_LAC_RAC = {
+#  20716-1
+#}
 
 
-EPS_MMEGI_MMEC = {
-  251-1
-}
+#EPS_MMEGI_MMEC = {
+#  659-138
+#}
 
 5GS_AMF_REGION_SET_PT = {
  7-0-1
