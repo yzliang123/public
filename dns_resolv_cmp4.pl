@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use experimental 'smartmatch';
+#use experimental 'smartmatch';
 
 #copyright by yongzhong liang
 #any problem, please give feedback to yong.zhong.liang@ericsson.com
@@ -38,7 +38,16 @@ sub  init()
    my  @eps_mmegi_mmec;
    my  @amf_region_set_pt;
 
-   return  if(!open(FD, "./dns.dat"));
+   if(!open(FD, "./dns.dat")){
+      $dn_h->{DNS_SERVERS} = \@dns_servers;
+      $dn_h->{EPS_APN} = \@eps_apn;
+      $dn_h->{GPRS_APN} = \@gprs_apn;
+      $dn_h->{EPS_TAC} = \@eps_tac;
+      $dn_h->{GPRS_LAC_RAC} = \@gprs_lac_rac;
+      $dn_h->{EPS_MMEGI_MMEC} = \@eps_mmegi_mmec;
+      $dn_h->{AMF_REGION_SET_PT} = \@amf_region_set_pt;
+      return;
+   };
    my @lines = <FD>;
    close(FD);
    my $i=0;
@@ -115,21 +124,27 @@ sub  get_lac_rac_hex($)
 
 sub  get_gprs_apn_list()
 {
+   return ([]) if(!exists($dn_h->{GPRS_APN}));
+   my $tmp = $dn_h->{GPRS_APN};
+   return $tmp if(@$tmp);
    my @apn = qw(cmnet cmwap);
-   return (\@apn) if(!exists($dn_h->{GPRS_APN}));
-   return ($dn_h->{GPRS_APN});
+   return \@apn;
 }
 
 sub  get_eps_apn_list()
 {
+   return ([]) if(!exists($dn_h->{EPS_APN}));
+   my $tmp = $dn_h->{EPS_APN};
+   return $tmp if(@$tmp);
    my @apn = qw (cmnet cmwap ims);
-   return (\@apn) if(!exists($dn_h->{EPS_APN}));
-   return ($dn_h->{EPS_APN});
+   return \@apn;
 }
 
 sub  get_tac_list()
 {
-   return ($dn_h->{EPS_TAC}) if (exists($dn_h->{EPS_TAC}));
+   return([]) if (!exists($dn_h->{EPS_TAC}));	
+   my $tmp = $dn_h->{EPS_TAC};
+   return $tmp if (@$tmp);
    my @t = qx(/usr/bin/gsh show_mme_tracking_area );
    my $tac_l = [];
    foreach (@t) {
@@ -140,7 +155,9 @@ sub  get_tac_list()
 
 sub  get_lac_rac_list()
 {
-   return ($dn_h->{GPRS_LAC_RAC}) if(exists($dn_h->{GPRS_LAC_RAC}));
+   return ([]) if(!exists($dn_h->{GPRS_LAC_RAC}));
+   my $tmp = $dn_h->{GPRS_LAC_RAC};
+   return $tmp if(@$tmp);
    my @t = qx(/usr/bin/gsh list_ra all | grep gsm | grep -v grep);
    my $lac_rac_l = [];
    foreach my $t (@t) {
@@ -152,8 +169,10 @@ sub  get_lac_rac_list()
 
 sub  get_mmegi_mmec_list()
 {
-   return ($dn_h->{EPS_MMEGI_MMEC}) if (exists($dn_h->{EPS_MMEGI_MMEC}));
-   my $tmp  = [];
+   return ([]) if (!exists($dn_h->{EPS_MMEGI_MMEC}));
+   my $tmp = $dn_h->{EPS_MMEGI_MMEC};
+   return $tmp if(@$tmp);
+   $tmp  = [];
    my @t = qx(/usr/bin/gsh get_ne | egrep -e "mgi|^mc" | grep -v grep);
    my $tmp1 = shift @t;
    $tmp1 =~ /(\d+)/;
@@ -175,8 +194,8 @@ sub  get_mmegi_mmec_hex($)
 
 sub  get_amf_region_set_pt_list()
 {
-   return ($dn_h->{AMF_REGION_SET_PT}) if (exists($dn_h->{AMF_REGION_SET_PT}));
-   return (my $tmp = []);
+   return ([]) if (!exists($dn_h->{AMF_REGION_SET_PT}));
+   return ($dn_h->{AMF_REGION_SET_PT});
 } 
 
 sub  get_amf_region_set_pt_hex($)
@@ -208,8 +227,9 @@ sub  get_dns_client()
 sub  get_dns_servers()
 {
    my $dns_h = {};
-   if(exists($dn_h->{DNS_SERVERS})) {
-      my $tmp = $dn_h->{DNS_SERVERS};
+   die "No any DNS servers!\n" if(!exists($dn_h->{DNS_SERVERS}));
+   my $tmp = $dn_h->{DNS_SERVERS};
+   if (@$tmp){
       foreach (@$tmp) {
          my ($s,$ip) = split(/\:/);
 	 $dns_h->{$s} = $ip;
@@ -223,8 +243,8 @@ sub  get_dns_servers()
       $dns_h->{lc($tmp[0])} = $l[7];
    }
    my @t1 = keys %$dns_h;
-   die "Can't find any DNS server\n" if (!@t1);
-   return ($dns_h);
+   die "No any DNS servers!\n" if (!@t1);
+   return $dns_h;
 }
 
 
