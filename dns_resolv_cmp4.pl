@@ -39,15 +39,14 @@ sub  init()
    my  @amf_region_set_pt;
 
    if(!open(FD, "./dns.dat")){
-      $dn_h->{DNS_SERVERS} = \@dns_servers;
-      $dn_h->{EPS_APN} = \@eps_apn;
-      $dn_h->{GPRS_APN} = \@gprs_apn;
-      $dn_h->{EPS_TAC} = \@eps_tac;
-      $dn_h->{GPRS_LAC_RAC} = \@gprs_lac_rac;
-      $dn_h->{EPS_MMEGI_MMEC} = \@eps_mmegi_mmec;
-      $dn_h->{AMF_REGION_SET_PT} = \@amf_region_set_pt;
+      $dn_h = { DNS_SERVERS => \@dns_servers,
+                EPS_APN => \@eps_apn, GPRS_APN => \@gprs_apn,
+                EPS_TAC => \@eps_tac, GPRS_LAC_RAC => \@gprs_lac_rac,
+                EPS_MMEGI_MMEC => \@eps_mmegi_mmec, AMF_REGION_SET_PT => \@amf_region_set_pt
+      };
       return;
    };
+
    my @lines = <FD>;
    close(FD);
    my $i=0;
