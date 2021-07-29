@@ -6,33 +6,33 @@ DNS_SERVERS={
 }
 
 EPS_APN = { 
-  cmnet
+  cmnet  #4g apn
   cmwap
   ims
   cmdtj
 }
 
 GPRS_APN = {
-  cmnet
+  cmnet  #gprs apn
   cmwap
   jsepc.js
 }
 
 #EPS_TAC = {
-#  20716
+#  20716 #tracking area
 #}
   
 #GPRS_LAC_RAC = {
-#  20716-1
+#  20716-1  #lac-rac
 #}
 
 
 #EPS_MMEGI_MMEC = {
-#  659-138
+#  659-138 #mmegi-mmec
 #}
 
 5GS_AMF_REGION_SET_PT = {
- 7-0-1
+ 7-0-1  #5g region-set-pointer
  7-0-2
  7-0-3
  7-0-4
