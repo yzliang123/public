@@ -18,18 +18,18 @@ GPRS_APN = {
   jsepc.js
 }
 
-#EPS_TAC = {
-#  20716 #tracking area
-#}
+EPS_TAC = {
+  20716 #tracking area
+}
   
-#GPRS_LAC_RAC = {
+GPRS_LAC_RAC = {
 #  20716-1  #lac-rac
-#}
+}
 
 
-#EPS_MMEGI_MMEC = {
+EPS_MMEGI_MMEC = {
 #  659-138 #mmegi-mmec
-#}
+}
 
 5GS_AMF_REGION_SET_PT = {
  7-0-1  #5g region-set-pointer
